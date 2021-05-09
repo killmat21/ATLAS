@@ -1,0 +1,5 @@
+black~=21.5b0
+ccxt~=1.49.66
+click~=7.1.2
+numpy~=1.20.2
+pytest~=6.2.4

@@ -1,0 +1,26 @@
+version: 2.1
+
+jobs:
+  tests:
+    docker:
+      - image: cimg/python:3.8.2
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install Dependencies
+          command: |
+            pip3 install --user -r requirements.txt
+      - save_cache:
+          key: deps-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - ".venv"
+      - run:
+          command: pytest tests/
+          name: Test
+
+workflows:
+  main:
+    jobs:
+      - tests

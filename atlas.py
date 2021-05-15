@@ -4,11 +4,14 @@ from src.engine import Atlas
 
 @click.command()
 @click.option(
-    "-e", "--exchange", type=click.Choice(["binance", "coinbase"], case_sensitive=False)
+    "-e",
+    "--exchange",
+    type=click.Choice(["binance", "coinbase"], case_sensitive=False),
+    required=True,
 )
 @click.option("--test/--real-shit", default=True, help="Test or Live environment")
 @click.option(
-    "--manual/--skynet",
+    "--skynet/--manual",
     default=True,
     help="You pass manual orders or you let Atlas take control",
 )

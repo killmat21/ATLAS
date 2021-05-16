@@ -6,12 +6,12 @@ from src.engine import Atlas
 @click.option(
     "-e",
     "--exchange",
-    type=click.Choice(["binance", "coinbase"], case_sensitive=False),
+    type=click.Choice(["binance", "coinbasepro"], case_sensitive=False),
     required=True,
 )
 @click.option("--test/--real-shit", default=True, help="Test or Live environment")
 @click.option(
-    "--skynet/--manual",
+    "--manual/--skynet",
     default=True,
     help="You pass manual orders or you let Atlas take control",
 )
@@ -26,7 +26,7 @@ def main(exchange: str, test: bool, manual: bool):
     |____| |____|(_)|_____|(_)|________|(_)|____| |____|(_)\______.' 
     """
     )
-    atlas = Atlas(platform=exchange, is_test=test, is_manual=manual)
+    atlas = Atlas(exchange_name=exchange, is_test=test, is_manual=manual)
     print(atlas)
 
 

@@ -1,21 +1,23 @@
 import pytest
+import ccxt
 from src.engine import Atlas
 
 
 @pytest.mark.parametrize(
-    "platform, is_test, is_manual",
+    "exchange, is_test, is_manual, exchange_exp",
     [
-        ("coinbase", True, True),
-        ("coinbase", False, False),
-        ("binance", True, True),
-        ("binance", False, True),
-        ("binance", True, True),
+        ("coinbasepro", True, True, "Coinbase Pro"),
+        ("coinbasepro", False, False, "Coinbase Pro"),
+        ("binance", True, True, "Binance"),
+        ("binance", False, True, "Binance"),
+        ("binance", True, True, "Binance"),
     ],
 )
-def test__atlas_str(platform, is_test, is_manual):
-    atlas = Atlas(platform=platform, is_test=is_test, is_manual=is_manual)
-    platform_exp = "Binance" if platform.lower() == "binance" else "Coinbase Pro"
+def test__atlas_str(mocker, exchange, is_test, is_manual, exchange_exp):
+    mock_exchange = mocker.patch("src.engine.Exchange")
+    mock_exchange.return_value = str(getattr(ccxt, exchange)())
+    atlas = Atlas(exchange_name=exchange, is_test=is_test, is_manual=is_manual)
     str_exp = (
-        f"PLATFORM: {platform_exp}\nTEST MODE: {is_test}\nSKYNET MODE: {is_manual}"
+        f"EXCHANGE: {exchange_exp}\nTEST MODE: {is_test}\nSKYNET MODE: {not is_manual}"
     )
     assert str(atlas) == str_exp

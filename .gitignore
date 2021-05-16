@@ -62,3 +62,10 @@ venv.bak/
 
 # PyCharm config files
 .idea
+
+# Vscode config files
+.vscode
+
+# Config files
+*.ini
+*.cfg

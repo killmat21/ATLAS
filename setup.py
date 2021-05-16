@@ -8,7 +8,7 @@ setup(
     py_modules=["atlas"],
     install_requires=["Click", "ccxt", "numpy"],
     extras_require={
-        "dev": ["pytest"],
+        "dev": ["pytest", "pytest-mock"],
     },
     entry_points={
         "console_scripts": [

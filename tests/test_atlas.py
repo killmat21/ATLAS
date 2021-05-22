@@ -1,21 +1,22 @@
 import pytest
 from src.engine import Atlas
+from src.exchange import Exchange
+from src.command import Commands
 
 
 @pytest.mark.parametrize(
-    "platform, is_test, is_manual",
+    "exchange, is_test, is_manual, exchange_exp",
     [
-        ("coinbase", True, True),
-        ("coinbase", False, False),
-        ("binance", True, True),
-        ("binance", False, True),
-        ("binance", True, True),
+        ("coinbasepro", True, True, "Coinbase Pro"),
+        ("coinbasepro", False, False, "Coinbase Pro"),
+        ("binance", True, True, "Binance"),
+        ("binance", False, True, "Binance"),
+        ("binance", True, True, "Binance"),
     ],
 )
-def test__atlas_str(platform, is_test, is_manual):
-    atlas = Atlas(platform=platform, is_test=is_test, is_manual=is_manual)
-    platform_exp = "Binance" if platform.lower() == "binance" else "Coinbase Pro"
-    str_exp = (
-        f"PLATFORM: {platform_exp}\nTEST MODE: {is_test}\nSKYNET MODE: {is_manual}"
-    )
-    assert str(atlas) == str_exp
+def test__atlas(mocker, exchange, is_test, is_manual, exchange_exp):
+    mocker.patch("src.engine.Exchange.set_exchange_config")
+    atlas = Atlas(exchange_name=exchange, is_test=is_test, is_manual=is_manual)
+    assert isinstance(atlas.test, bool)
+    assert isinstance(atlas.exchange, Exchange)
+    assert isinstance(atlas.command, Commands)

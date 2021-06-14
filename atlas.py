@@ -1,5 +1,6 @@
 import click
 from src.engine import Atlas
+from src.metrics import is_resistance, is_support
 
 
 @click.command()
@@ -10,12 +11,7 @@ from src.engine import Atlas
     required=True,
 )
 @click.option("--test/--real-shit", default=True, help="Test or Live environment")
-@click.option(
-    "--manual/--skynet",
-    default=True,
-    help="You pass manual orders or you let Atlas take control",
-)
-def main(exchange: str, test: bool, manual: bool):
+def main(exchange: str, test: bool):
     print(
         """
           _        _________   _____             _          ______   
@@ -26,8 +22,16 @@ def main(exchange: str, test: bool, manual: bool):
     |____| |____|(_)|_____|(_)|________|(_)|____| |____|(_)\______.' 
     """
     )
-    atlas = Atlas(exchange_name=exchange, is_test=test, is_manual=manual)
-    print(atlas)
+    atlas = Atlas(exchange_name=exchange, is_test=test)
+    sticks = atlas.command.get_ohlcv("BTC/USDT", 60, "1m")
+    resistance = -1
+    it = 0
+    while resistance == -1 and it < len(sticks):
+        start = it
+        end = start + 5
+        resistance = is_resistance(sticks[start:end])
+        it += 1
+    print(resistance)
 
 
 if __name__ == "__main__":

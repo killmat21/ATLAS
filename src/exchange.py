@@ -3,8 +3,8 @@ import configparser
 
 
 class Exchange:
-    def __init__(self, exchange_name: str, is_test: bool):
-        self.name = exchange_name
+    def __init__(self, is_test: bool):
+        self.name = "binance"
         self.test = is_test
         self.config_filename = "config.ini"
         self.exchange = self.set_exchange_config()

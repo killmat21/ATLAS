@@ -18,7 +18,10 @@ def main(test: bool):
     atlas = Atlas(is_test=test)
     print(atlas)
     while not robot_killer.shutdown:
-        # Where startegy will go
+        # 1. get all the datas needed to implement/check strategy is ok
+        # 2. strategy checks
+        # 3. buy/sell order
+        # 4. sleep X time to replay the loop
         pass
 
 

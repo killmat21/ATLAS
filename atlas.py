@@ -3,19 +3,8 @@ from src.engine import Atlas
 
 
 @click.command()
-@click.option(
-    "-e",
-    "--exchange",
-    type=click.Choice(["binance", "coinbasepro"], case_sensitive=False),
-    required=True,
-)
 @click.option("--test/--real-shit", default=True, help="Test or Live environment")
-@click.option(
-    "--manual/--skynet",
-    default=True,
-    help="You pass manual orders or you let Atlas take control",
-)
-def main(exchange: str, test: bool, manual: bool):
+def main(test: bool):
     print(
         """
           _        _________   _____             _          ______   
@@ -26,7 +15,7 @@ def main(exchange: str, test: bool, manual: bool):
     |____| |____|(_)|_____|(_)|________|(_)|____| |____|(_)\______.' 
     """
     )
-    atlas = Atlas(exchange_name=exchange, is_test=test, is_manual=manual)
+    atlas = Atlas(is_test=test)
     print(atlas)
 
 
